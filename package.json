@@ -1,6 +1,6 @@
 {
     "name": "@pta-kyma/kyma-nodejs-utils",
-    "version": "3.1.0",
+    "version": "1.0.0",
     "description": "",
     "main": "lib/main.js",
     "scripts": {
