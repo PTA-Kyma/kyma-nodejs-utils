@@ -1,9 +1,7 @@
-import * as express from 'express';
-import Axios from 'axios';
 import { C4CService } from '@pta-kyma/c4c-odata-access';
-import * as uuid from 'uuid';
+import Axios from 'axios';
+import * as express from 'express';
 import { logMaybeAxiosError } from './logging';
-import { Session } from 'inspector';
 
 const AUTH_SERVER_URL = process.env.AUTH_SERVER_URL;
 if (!AUTH_SERVER_URL) {
@@ -88,10 +86,23 @@ export async function authMiddleware(req: express.Request, res: express.Response
     next();
 }
 
+export function callC4CService(req: express.Request) {
+    console.log(req.c4cService);
+}
+
 export interface C4CAuthSession {
     sessionId: string;
     username: string;
     csrf: string;
     sapToken: string;
     sapUrl: string;
+}
+
+declare global {
+    namespace Express {
+        export interface Request {
+            c4cService: C4CService;
+            session: C4CAuthSession;
+        }
+    }
 }

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authMiddleware = void 0;
+exports.callC4CService = exports.authMiddleware = void 0;
 var tslib_1 = require("tslib");
-var axios_1 = tslib_1.__importDefault(require("axios"));
 var c4c_odata_access_1 = require("@pta-kyma/c4c-odata-access");
+var axios_1 = tslib_1.__importDefault(require("axios"));
 var logging_1 = require("./logging");
 var AUTH_SERVER_URL = process.env.AUTH_SERVER_URL;
 if (!AUTH_SERVER_URL) {
@@ -92,4 +92,8 @@ function authMiddleware(req, res, next) {
     });
 }
 exports.authMiddleware = authMiddleware;
+function callC4CService(req) {
+    console.log(req.c4cService);
+}
+exports.callC4CService = callC4CService;
 //# sourceMappingURL=auth.js.map
