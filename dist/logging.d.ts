@@ -1,6 +1,7 @@
 import * as express from 'express';
 import winston, { Logger } from 'winston';
-export declare function requestSpecificLoggerMiddleware(req: express.Request, res: express.Response, next: express.NextFunction): void;
+export declare const logger: winston.Logger;
+export declare function requestSpecificLoggerMiddleware(logStartAndEnd?: boolean): express.RequestHandler;
 declare global {
     namespace Express {
         interface Request {

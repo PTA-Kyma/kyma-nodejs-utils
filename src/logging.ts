@@ -1,5 +1,6 @@
 import { AxiosError } from 'axios';
 import * as express from 'express';
+import onFinished from 'on-finished';
 import winston, { createLogger, format, Logger } from 'winston';
 
 const { combine, timestamp, colorize } = format;
@@ -37,21 +38,34 @@ if (process.env.NODE_ENV === 'production') {
     );
 }
 
-const logger = createLogger({
+export const logger = createLogger({
     level: 'debug',
     transports,
 });
 
 let nextRequestId = 1;
 
-export function requestSpecificLoggerMiddleware(
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-) {
-    req.logger = logger.child({ requestId: nextRequestId });
-    nextRequestId++;
-    next();
+export function requestSpecificLoggerMiddleware(logStartAndEnd: boolean = true): express.RequestHandler {
+    return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+        req.logger = logger.child({ requestId: nextRequestId });
+        let requestInfo: string;
+        if (logStartAndEnd) {
+            requestInfo = `${req.method} ${req.url}`;
+            req.logger.debug(`Request ${requestInfo} starting`);
+        }
+        nextRequestId++;
+        next();
+
+        if (logStartAndEnd) {
+            onFinished(res, (err, msg) => {
+                if (err) {
+                    req.logger.error(`Request ${requestInfo} ended with error: ${err.name} ${err.message} `);
+                }
+
+                req.logger.debug(`End of request ${requestInfo}: ${msg.statusCode} ${msg.statusMessage}`);
+            });
+        }
+    };
 }
 
 declare global {
