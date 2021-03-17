@@ -17,3 +17,4 @@ declare global {
         }
     }
 }
+//# sourceMappingURL=auth.d.ts.map

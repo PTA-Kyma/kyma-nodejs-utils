@@ -10,3 +10,4 @@ declare global {
     }
 }
 export declare function logMaybeAxiosError(logger: winston.Logger, err: Error): void;
+//# sourceMappingURL=logging.d.ts.map

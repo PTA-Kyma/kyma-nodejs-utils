@@ -55,7 +55,7 @@ function handleGet(app, path, func) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, func(req)];
+                    return [4 /*yield*/, func(req, res)];
                 case 1:
                     result = _a.sent();
                     res.send(result);
@@ -79,7 +79,7 @@ function handlePost(app, path, func) {
             switch (_a.label) {
                 case 0:
                     _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, func(req)];
+                    return [4 /*yield*/, func(req, res)];
                 case 1:
                     result = _a.sent();
                     res.send(result);
