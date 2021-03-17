@@ -30,10 +30,10 @@ export function handleGetWithFilesystemCache<T>(
     });
 }
 
-export function handleGet<T>(app: express.Application, path: string, func: (req: express.Request) => Promise<T>) {
+export function handleGet<T>(app: express.Application, path: string, func: (req: express.Request, res: express.Response) => Promise<T>) {
     app.get(path, async (req, res) => {
         try {
-            const result = await func(req);
+            const result = await func(req, res);
             res.send(result);
         } catch (err) {
             logMaybeAxiosError(req.logger, err);
@@ -42,10 +42,10 @@ export function handleGet<T>(app: express.Application, path: string, func: (req:
     });
 }
 
-export function handlePost<T>(app: express.Application, path: string, func: (req: express.Request) => Promise<T>) {
+export function handlePost<T>(app: express.Application, path: string, func: (req: express.Request, res: express.Response) => Promise<T>) {
     app.post(path, bodyParser.json(), async (req, res) => {
         try {
-            const result = await func(req);
+            const result = await func(req, res);
             res.send(result);
         } catch (err) {
             logMaybeAxiosError(req.logger, err);
