@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.handlePost = exports.handleGet = exports.handleGetWithFilesystemCache = void 0;
+exports.handleDelete = exports.handlePost = exports.handleGet = exports.handleGetWithFilesystemCache = void 0;
 var tslib_1 = require("tslib");
 var logging_1 = require("./logging");
 var fs_1 = require("fs");
@@ -95,4 +95,28 @@ function handlePost(app, path, func) {
     }); });
 }
 exports.handlePost = handlePost;
+function handleDelete(app, path, func) {
+    var _this = this;
+    app.delete(path, function (req, res) { return tslib_1.__awaiter(_this, void 0, void 0, function () {
+        var result, err_4;
+        return tslib_1.__generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, func(req, res)];
+                case 1:
+                    result = _a.sent();
+                    res.send(result);
+                    return [3 /*break*/, 3];
+                case 2:
+                    err_4 = _a.sent();
+                    logging_1.logMaybeAxiosError(req.logger, err_4);
+                    res.status(500).send('Failed to process');
+                    return [3 /*break*/, 3];
+                case 3: return [2 /*return*/];
+            }
+        });
+    }); });
+}
+exports.handleDelete = handleDelete;
 //# sourceMappingURL=async-handlers.js.map

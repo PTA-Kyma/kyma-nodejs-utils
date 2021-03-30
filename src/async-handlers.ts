@@ -53,3 +53,15 @@ export function handlePost<T>(app: express.Application, path: string, func: (req
         }
     });
 }
+
+export function handleDelete<T>(app: express.Application, path: string, func: (req: express.Request, res: express.Response) => Promise<T>) {
+    app.delete(path, async (req, res) => {
+        try {
+            const result = await func(req, res);
+            res.send(result);
+        } catch (err) {
+            logMaybeAxiosError(req.logger, err);
+            res.status(500).send('Failed to process');
+        }
+    });
+}
